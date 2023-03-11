@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import * as loadImage from 'blueimp-load-image'
 import "../../styles/index.css";
 import "../../styles/form.css";
+import Photos from '../extras/Photos';
+import TripService from '../../services/TripService';
+
+import Swal from 'sweetalert2'
 
 const NewTrip = () => {
     const [state, setState] = useState({
@@ -9,7 +13,8 @@ const NewTrip = () => {
         datestarted: '',
         dateended: '',
         description: '', 
-        photos: []
+        photos: [],
+        mainPhoto: 0
     })
 
     useEffect(() => {
@@ -60,7 +65,7 @@ const NewTrip = () => {
                         let files = Array.prototype.slice.call(e.target.files);
                         for(let i = 0; i < files.length; i++) {
                             uploaded.push({ 
-                                file: files[i], 
+                                url: URL.createObjectURL(files[i]),
                                 long: await getGpsInfo(files[i], 'GPSLongitude'),
                                 lat: await getGpsInfo(files[i], 'GPSLatitude')
                             });
@@ -70,6 +75,36 @@ const NewTrip = () => {
                     }}
                 /><br />
             </form>
+            <button className="formBt" onClick={() => {
+                if(!state.name || !state.datestarted || !state.dateended || 
+                    !state.description || state.photos.length == 0) {
+                        Swal.fire(
+                            'Missing information',
+                            'Please fill out all relevant fields!',
+                            'error'
+                        )
+                    return;
+                }
+                Swal.fire(
+                    'Good Job',
+                    'Trip successfully added to the list!',
+                    'success'
+                )
+                  
+                let pushState = { ...state, mainPhoto: state.photos[state.mainPhoto]}
+                TripService.create(pushState);
+                setState({
+                    name: '',
+                    datestarted: '',
+                    dateended: '',
+                    description: '', 
+                    photos: [],
+                    mainPhoto: 0
+                })
+            }}>
+                Add Trip
+            </button>
+            <Photos photos={state.photos} state={state} setState={setState} />
         </div>
     );
 };

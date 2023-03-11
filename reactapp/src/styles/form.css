@@ -11,6 +11,25 @@ input {
     color: white;
 }
 
+.formBt {
+    width: calc(100% - 30px);
+    max-width: 350px;
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 15px;
+    margin-bottom: 3px;
+    color: white;
+}
+
+.formBt:hover {
+    background-color: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -34,4 +53,13 @@ input::placeholder {
 input::file-selector-button {
     background-color: rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.swal2-confirm {
+    width: 150px !important;
+    background-color: #233142ff !important;
+}
+
+.swal2-confirm:hover {
+    background-color: rgb(17, 23, 31) !important;
 }
